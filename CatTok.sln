@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatTok.Application", "CatTo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatTok.Domain", "CatTok.Domain\CatTok.Domain.csproj", "{92C17AEA-5948-4A4E-9DAE-5F1293736F13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatTok.Common", "CatTok.Common\CatTok.Common.csproj", "{49E0E9F2-DD8E-41DE-B8CE-C11E51FDF6BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{92C17AEA-5948-4A4E-9DAE-5F1293736F13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92C17AEA-5948-4A4E-9DAE-5F1293736F13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92C17AEA-5948-4A4E-9DAE-5F1293736F13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49E0E9F2-DD8E-41DE-B8CE-C11E51FDF6BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49E0E9F2-DD8E-41DE-B8CE-C11E51FDF6BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49E0E9F2-DD8E-41DE-B8CE-C11E51FDF6BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49E0E9F2-DD8E-41DE-B8CE-C11E51FDF6BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
