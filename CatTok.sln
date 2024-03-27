@@ -2,6 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatTok.Api", "CatTok.Api\CatTok.Api.csproj", "{F3CA96FA-6E60-4762-9F6C-79E3DE71C11B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatTok.Infrastructure", "CatTok.Infrastructure\CatTok.Infrastructure.csproj", "{FC25BC3E-3662-4559-85D4-D0C9D1CFFF65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatTok.Application", "CatTok.Application\CatTok.Application.csproj", "{17A63B5B-4A10-4040-B083-A1F9B13C9909}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatTok.Domain", "CatTok.Domain\CatTok.Domain.csproj", "{3CF5BBC4-9A03-48B3-A918-97F3AAC691BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +18,17 @@ Global
 		{F3CA96FA-6E60-4762-9F6C-79E3DE71C11B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3CA96FA-6E60-4762-9F6C-79E3DE71C11B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3CA96FA-6E60-4762-9F6C-79E3DE71C11B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC25BC3E-3662-4559-85D4-D0C9D1CFFF65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC25BC3E-3662-4559-85D4-D0C9D1CFFF65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC25BC3E-3662-4559-85D4-D0C9D1CFFF65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC25BC3E-3662-4559-85D4-D0C9D1CFFF65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17A63B5B-4A10-4040-B083-A1F9B13C9909}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17A63B5B-4A10-4040-B083-A1F9B13C9909}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17A63B5B-4A10-4040-B083-A1F9B13C9909}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17A63B5B-4A10-4040-B083-A1F9B13C9909}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CF5BBC4-9A03-48B3-A918-97F3AAC691BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CF5BBC4-9A03-48B3-A918-97F3AAC691BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CF5BBC4-9A03-48B3-A918-97F3AAC691BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CF5BBC4-9A03-48B3-A918-97F3AAC691BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
