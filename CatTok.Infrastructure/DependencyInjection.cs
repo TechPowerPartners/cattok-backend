@@ -15,6 +15,7 @@ public static class DependencyInjection
         });
 
         services.AddTransient<ExternalAuthService>();
+        services.AddTransient<JwtService>();
         
         return services;
     }
