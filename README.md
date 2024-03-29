@@ -3,6 +3,14 @@ To run you need to update your Postgres database:
 $ dotnet ef database update -p CatTok.Api  
 </pre>
 
+Create google auth credentials and add these urls to the Authorized redirect URIs:
+<pre>
+https://localhost:7003
+https://localhost:7003/signin-google
+https://localhost:7003/api/auth/google/login
+https://localhost:7003/api/auth/google/callback
+</pre>
+
 Then open appsettings.json and specify google client id, secret and jwt security key
 <pre>
 "GoogleOAuthOptions": {
