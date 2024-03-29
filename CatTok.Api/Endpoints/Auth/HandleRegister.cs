@@ -14,13 +14,13 @@ namespace CatTok.Api.Endpoints.Auth;
 
 public class HandleRegister : IModule
 {
-    public class Request
+    public class RegisterRequest
     {
         public string? Username { get; set; }
         public string? Email { get; set; }
         public string? Password { get; set; }
         
-        public class Validator : AbstractValidator<Request>
+        public class Validator : AbstractValidator<RegisterRequest>
         {
             public Validator()
             {
@@ -37,8 +37,8 @@ public class HandleRegister : IModule
         [FromServices] IOptions<JwtOptions> jwtOptions,
         [FromServices] CookieService cookieService,
         [FromServices] JwtService jwtService,
-        [FromBody] Request? request,
-        [FromServices] IValidator<Request> validator)
+        [FromBody] RegisterRequest? request,
+        [FromServices] IValidator<RegisterRequest> validator)
     {
         await ApiException.ValidateAsync(validator, request);
 

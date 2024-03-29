@@ -11,12 +11,12 @@ namespace CatTok.Api.Endpoints.Auth;
 
 public class HandleLogin : IModule
 {
-    public class Request
+    public class LoginRequest
     {
         public string? Email { get; set; }
         public string? Password { get; set; }
 
-        public class Validator : AbstractValidator<Request>
+        public class Validator : AbstractValidator<LoginRequest>
         {
             public Validator()
             {
@@ -28,8 +28,8 @@ public class HandleLogin : IModule
 
     public async Task<IResult> Handle(
         HttpContext httpContext,
-        [FromBody] Request? request,
-        [FromServices] IValidator<Request> validator,
+        [FromBody] LoginRequest? request,
+        [FromServices] IValidator<LoginRequest> validator,
         [FromServices] ISender sender,
         [FromServices] CookieService cookieService)
     {
