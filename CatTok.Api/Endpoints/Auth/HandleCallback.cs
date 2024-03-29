@@ -1,5 +1,5 @@
 ﻿using CatTok.Api.Extensions;
-using CatTok.Application.Commands.GoogleLogin;
+using CatTok.Application.Commands.Login;
 using CatTok.Common.Options;
 using CatTok.Domain.Entities;
 using CatTok.Infrastructure.Services;

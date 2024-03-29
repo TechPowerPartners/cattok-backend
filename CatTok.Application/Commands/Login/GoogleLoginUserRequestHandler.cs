@@ -6,9 +6,9 @@ using Mapster;
 using MediatR;
 using Microsoft.Extensions.Options;
 
-namespace CatTok.Application.Commands.GoogleLogin;
+namespace CatTok.Application.Commands.Login;
 
-public class GoogleLoginUserRequest : IRequest<(LoginUserResponse, string)>
+public record GoogleLoginUserRequest : IRequest<(RegisterUserResponse, string)>
 {
     public required string Sub { get; set; }
     public required string Username { get; set; }
@@ -16,7 +16,7 @@ public class GoogleLoginUserRequest : IRequest<(LoginUserResponse, string)>
     public required string Picture { get; set; }
 }
 
-public class LoginUserResponse
+public record GoogleLoginUserResponse
 {
     public required Guid Id { get; set; }
     public required string Sub { get; set; }
@@ -26,13 +26,13 @@ public class LoginUserResponse
 }
 
 public class GoogleLoginUserRequestHandler(AppDbContext appDbContext, IOptions<JwtOptions> jwtOptions, JwtService jwtService)
-    : IRequestHandler<GoogleLoginUserRequest, (LoginUserResponse, string)>
+    : IRequestHandler<GoogleLoginUserRequest, (RegisterUserResponse, string)>
 {
     private readonly AppDbContext _appDbContext = appDbContext;
     private readonly IOptions<JwtOptions> _jwtOptions = jwtOptions;
     private readonly JwtService _jwtService = jwtService;
 
-    public async Task<(LoginUserResponse, string)> Handle(GoogleLoginUserRequest request, CancellationToken cancellationToken)
+    public async Task<(RegisterUserResponse, string)> Handle(GoogleLoginUserRequest request, CancellationToken cancellationToken)
     {
         var user = _appDbContext.Users.FirstOrDefault(u => u.Sub == request.Sub && u.IsGoogleUser);
         
@@ -56,6 +56,6 @@ public class GoogleLoginUserRequestHandler(AppDbContext appDbContext, IOptions<J
         user.IsGoogleUser = true;
         
         await _appDbContext.SaveChangesAsync(cancellationToken);
-        return (user.Adapt<LoginUserResponse>(), refreshToken);
+        return (user.Adapt<RegisterUserResponse>(), refreshToken);
     }
 }

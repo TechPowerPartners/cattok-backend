@@ -1,5 +1,6 @@
 using System.Text;
 using CatTok.Api.Extensions;
+using CatTok.Api.Middlewares;
 using CatTok.Application;
 using CatTok.Common.Options;
 using CatTok.Infrastructure;
@@ -53,7 +54,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// app.UseCustomExceptionHandler();
+app.UseCustomExceptionHandler();
 
 app.UseAuthentication();
 app.UseAuthorization();

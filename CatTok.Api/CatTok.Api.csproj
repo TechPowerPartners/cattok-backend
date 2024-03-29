@@ -33,8 +33,4 @@
       <ProjectReference Include="..\CatTok.Infrastructure\CatTok.Infrastructure.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Services\" />
-    </ItemGroup>
-
 </Project>

@@ -45,9 +45,10 @@ public class JwtService(IOptions<JwtOptions> jwtOptions)
         rng.GetBytes(randomNumber);
         return Convert.ToBase64String(randomNumber);
     }
-    
-    public string Hash(string str) => Convert.ToBase64String(SHA256.HashData(Encoding.UTF8.GetBytes(str))); 
-    
+
+    public string Hash(string str) =>
+        Convert.ToBase64String(SHA256.HashData(Encoding.UTF8.GetBytes(str + _jwtOptions.Value.HashKey)));
+
     public ErrorOr<ClaimsPrincipal> GetPrincipalFromExpiredToken(string token)
     {
         var tokenValidationParameters = new TokenValidationParameters

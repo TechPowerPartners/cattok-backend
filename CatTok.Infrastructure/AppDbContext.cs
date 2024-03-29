@@ -16,6 +16,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             user.Property(u => u.IsGoogleUser).HasDefaultValue(false);
             user.Property(u => u.Picture).IsRequired(false);
             user.Property(u => u.PasswordHash).IsRequired(false);
+            user.HasIndex(u => u.Email).IsUnique();
         });
     }
 }
