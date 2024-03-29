@@ -19,7 +19,6 @@ Then open appsettings.json and specify google client id, secret and jwt security
 Then start web app
 
 <pre>
-$ cd backend
 $ dotnet run --project CatTok.Api
 </pre>
 
