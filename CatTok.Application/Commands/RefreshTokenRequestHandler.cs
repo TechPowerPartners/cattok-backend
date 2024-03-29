@@ -19,14 +19,18 @@ public class RefreshTokenResponse
     public required string RefreshToken { get; set; }
 }
 
-public class RefreshTokenRequestHandler(JwtService jwtService, AppDbContext appDbContext, IOptions<JwtOptions> jwtOptions) 
+public class RefreshTokenRequestHandler(
+    JwtService jwtService,
+    AppDbContext appDbContext,
+    IOptions<JwtOptions> jwtOptions)
     : IRequestHandler<RefreshTokenRequest, ErrorOr<RefreshTokenResponse>>
 {
     private readonly JwtService _jwtService = jwtService;
     private readonly IOptions<JwtOptions> _jwtOptions = jwtOptions;
     private readonly AppDbContext _appDbContext = appDbContext;
 
-    public async Task<ErrorOr<RefreshTokenResponse>> Handle(RefreshTokenRequest request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<RefreshTokenResponse>> Handle(RefreshTokenRequest request,
+        CancellationToken cancellationToken)
     {
         var userInfo = _jwtService.GetPrincipalFromExpiredToken(request.AccessToken);
 
@@ -41,9 +45,9 @@ public class RefreshTokenRequestHandler(JwtService jwtService, AppDbContext appD
         {
             return Error.Failure(description: "wrong user info");
         }
-        
+
         var user = _appDbContext.Users.FirstOrDefault(u => u.Id == Guid.Parse(id.Value));
-        
+
         if (user is null)
         {
             return Error.NotFound(description: "user not found");
@@ -64,7 +68,7 @@ public class RefreshTokenRequestHandler(JwtService jwtService, AppDbContext appD
             AccessToken = _jwtService.GenerateToken(user),
             RefreshToken = _jwtService.GenerateRefreshToken()
         };
-        
+
         user.RefreshToken = _jwtService.Hash(response.RefreshToken);
         user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_jwtOptions.Value.RefreshTokenExpiryTimeInDays);
 

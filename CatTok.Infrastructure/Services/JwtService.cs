@@ -57,7 +57,7 @@ public class JwtService(IOptions<JwtOptions> jwtOptions)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Value.Key)),
             ValidAudiences = _jwtOptions.Value.ValidAudiences,
             ValidIssuers = _jwtOptions.Value.ValidIssuers,
-            ValidateLifetime = _jwtOptions.Value.ValidateLifetime,
+            ValidateLifetime = false,
             ValidateAudience = _jwtOptions.Value.ValidateAudience,
             ValidateIssuer = _jwtOptions.Value.ValidateIssuer
         };

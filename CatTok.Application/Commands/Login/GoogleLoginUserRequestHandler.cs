@@ -5,10 +5,12 @@ using CatTok.Infrastructure.Services;
 using Mapster;
 using MediatR;
 using Microsoft.Extensions.Options;
+using ErrorOr;
 
 namespace CatTok.Application.Commands.Login;
 
-public record GoogleLoginUserRequest : IRequest<(RegisterUserResponse, string)>
+public record
+    GoogleLoginUserRequest : IRequest<(ErrorOr<GoogleLoginUserResponse>, string refreshToken, string accessToken)>
 {
     public required string Sub { get; set; }
     public required string Username { get; set; }
@@ -25,17 +27,26 @@ public record GoogleLoginUserResponse
     public required string Picture { get; set; }
 }
 
-public class GoogleLoginUserRequestHandler(AppDbContext appDbContext, IOptions<JwtOptions> jwtOptions, JwtService jwtService)
-    : IRequestHandler<GoogleLoginUserRequest, (RegisterUserResponse, string)>
+public class GoogleLoginUserRequestHandler(
+    AppDbContext appDbContext,
+    IOptions<JwtOptions> jwtOptions,
+    JwtService jwtService)
+    : IRequestHandler<GoogleLoginUserRequest, (ErrorOr<GoogleLoginUserResponse>, string refreshToken, string accessToken)>
 {
     private readonly AppDbContext _appDbContext = appDbContext;
     private readonly IOptions<JwtOptions> _jwtOptions = jwtOptions;
     private readonly JwtService _jwtService = jwtService;
 
-    public async Task<(RegisterUserResponse, string)> Handle(GoogleLoginUserRequest request, CancellationToken cancellationToken)
+    public async Task<(ErrorOr<GoogleLoginUserResponse>, string refreshToken, string accessToken)> Handle(
+        GoogleLoginUserRequest request, CancellationToken cancellationToken)
     {
+        var nonGoogleUserExists = _appDbContext.Users.FirstOrDefault(u => u.Email == request.Email && !u.IsGoogleUser);
+
+        if (nonGoogleUserExists is not null)
+            return (Error.Failure(description: "user with given email already exists"), "", "");
+
         var user = _appDbContext.Users.FirstOrDefault(u => u.Sub == request.Sub && u.IsGoogleUser);
-        
+
         if (user is null)
         {
             user = request.Adapt<User>();
@@ -48,14 +59,14 @@ public class GoogleLoginUserRequestHandler(AppDbContext appDbContext, IOptions<J
             user.Email = request.Email;
             user.Picture = request.Picture;
         }
-        
+
         var refreshToken = _jwtService.GenerateRefreshToken();
 
         user.RefreshToken = _jwtService.Hash(refreshToken);
         user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(_jwtOptions.Value.RefreshTokenExpiryTimeInDays);
         user.IsGoogleUser = true;
-        
+
         await _appDbContext.SaveChangesAsync(cancellationToken);
-        return (user.Adapt<RegisterUserResponse>(), refreshToken);
+        return (user.Adapt<GoogleLoginUserResponse>(), refreshToken, _jwtService.GenerateToken(user));
     }
 }

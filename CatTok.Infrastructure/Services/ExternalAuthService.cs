@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using System.Text.Json.Serialization;
 using CatTok.Common.Options;
 using ErrorOr;
 using Flurl;
@@ -14,8 +15,10 @@ public record TokenResponse
 
 public record UserInfoResponse
 {
-    public required string Id { get; set; }
-    public required string Name { get; set; } = null!;
+    [JsonPropertyName("id")]
+    public required string Sub { get; set; }
+    [JsonPropertyName("name")]
+    public required string Username { get; set; } = null!;
     public required string Email { get; set; } = null!;
     public required string Picture { get; set; } = null!;
 }

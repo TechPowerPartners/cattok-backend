@@ -1,6 +1,7 @@
 using System.Text;
 using CatTok.Api.Extensions;
 using CatTok.Api.Middlewares;
+using CatTok.Api.Services;
 using CatTok.Application;
 using CatTok.Common.Options;
 using CatTok.Infrastructure;
@@ -12,6 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
+
+builder.Services.AddTransient<CookieService>();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtSettings"));
 builder.Services.Configure<GoogleOAuthOptions>(builder.Configuration.GetSection("GoogleOAuthOptions"));

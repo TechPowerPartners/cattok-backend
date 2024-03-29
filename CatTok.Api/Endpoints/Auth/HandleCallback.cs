@@ -1,4 +1,5 @@
 ﻿using CatTok.Api.Extensions;
+using CatTok.Api.Services;
 using CatTok.Application.Commands.Login;
 using CatTok.Common.Options;
 using CatTok.Domain.Entities;
@@ -15,6 +16,7 @@ public class HandleCallback : IModule
     public async Task<IResult> HandleAsync(
         [FromServices] ExternalAuthService externalAuthService,
         [FromServices] IOptions<JwtOptions> jwtOptions,
+        [FromServices] CookieService cookieService,
         [FromServices] JwtService jwtService,
         [FromServices] ISender sender,
         HttpContext httpContext,
@@ -29,35 +31,21 @@ public class HandleCallback : IModule
         }
 
         var userInfo = await externalAuthService.GetUserInfo(tokens.Value.AccessToken);
-
-        var user = new User
+        
+        var (userResponse, refreshToken, accessToken) = await sender.Send(userInfo.Adapt<GoogleLoginUserRequest>());
+        
+        if (userResponse.IsError)
         {
-            Email = userInfo.Email,
-            Picture = userInfo.Picture,
-            Sub = userInfo.Id,
-            Username = userInfo.Name,
-            PasswordHash = null,
-            IsGoogleUser = true,
-        };
-
-        var (userResponse, refreshToken) = await sender.Send(user.Adapt<GoogleLoginUserRequest>());
-
-        user.Id = userResponse.Id;
-
-        httpContext.Response.Cookies.Append("refresh-token", refreshToken, new()
-        {
-            Expires = DateTime.UtcNow.AddDays(jwtOptions.Value.RefreshTokenExpiryTimeInDays),
-            Domain = httpContext.Request.Host.Host,
-            Path = "/",
-            Secure = true
-        });
-
-        var token = jwtService.GenerateToken(user);
-
+            var type = userResponse.FirstError.Type;
+            return CustomResults.ErrorJson(type, userResponse.Errors);
+        }
+        
+        cookieService.RegisterRefreshTokenCookie(httpContext, refreshToken);
+        
         return Results.Ok(new
         {
-            access_token = token,
-            user_info = userResponse
+            access_token = accessToken,
+            user_info = userResponse.Value
         });
     }
 
